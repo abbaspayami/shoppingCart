@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'ramin_image:latest'
+    image: 'abbas_image:latest'
     build:
       context: .
     container_name: app
