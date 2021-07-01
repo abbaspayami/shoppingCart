@@ -31,7 +31,7 @@ public class CartController {
      */
     @PostMapping(value = "/carts")
     public ResponseEntity<Cart> createShoppingCart(@RequestBody CartDto cartDto) {
-        return new ResponseEntity<>(cartService.create(cartDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(cartService.createShoppingCart(cartDto), HttpStatus.CREATED);
     }
 
     /**

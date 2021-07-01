@@ -118,7 +118,7 @@ class CartServiceTest {
     @Test
     void create_ShoppingCartTest() {
         CartDto cartDto = TestUtils.newCartDto();
-        cartService.create(cartDto);
+        cartService.createShoppingCart(cartDto);
 
         assertNotNull(cart);
         assertEquals(TestUtils.EXISTING_CART_ID, cart.getId());

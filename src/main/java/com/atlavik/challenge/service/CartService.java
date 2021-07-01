@@ -36,7 +36,7 @@ public class CartService {
      * @param cartDto cartDto input
      * @return Cart Saved Object
      */
-    public Cart create(CartDto cartDto) {
+    public Cart createShoppingCart(CartDto cartDto) {
 
         Cart cart = new Cart();
         cart.setCurrency(cartDto.getCurrency());
@@ -52,7 +52,8 @@ public class CartService {
      */
     public Cart getShoppingCart(Integer cartId) {
         log.debug("Get Product Method, cartId {}", cartId);
-        return checkCartIsExist(cartId);
+        Optional<Cart> optionalCart = cartRepository.findById(cartId);
+        return optionalCart.orElseThrow(() -> new CartNotFoundException("Cart Not Found."));
     }
 
     /**
@@ -63,7 +64,8 @@ public class CartService {
      */
     public Product getProduct(Integer cartId, Integer productId) {
         log.debug("Get Product Method, cartId {}, productId {}", cartId, productId);
-        return checkProductIsExist(cartId, productId);
+        Optional<Product> possibleProduct = productRepository.findByIdAndCart_Id(productId, cartId);
+        return possibleProduct.orElseThrow(() -> new ProductNotFoundException("Product Not Found."));
     }
 
     /**
@@ -73,7 +75,7 @@ public class CartService {
      * @return   Product Object
      */
     public Product updateProduct(Integer cartId, ProductDto productDto) {
-        Cart cart = checkCartIsExist(cartId);
+        Cart cart = getShoppingCart(cartId);
 
         Product product = new Product();
         product.setCart(cart);
@@ -93,41 +95,8 @@ public class CartService {
      */
     public void removeProduct(Integer cartId, Integer productId) {
         log.debug("Delete Product in cartId {} and productId {}", cartId, productId);
-        checkProductIsExist(cartId, productId);
+        getProduct(cartId, productId);
         productRepository.removeProductByIdAndCart_Id(productId, cartId);
-    }
-
-    /**
-     * checking cart is exist
-     * @param cartId to find cart object
-     * @return Cart object
-     */
-    public Cart checkCartIsExist(Integer cartId) {
-        log.debug("checkCartIsExist : cartId {}", cartId);
-        Optional<Cart> optionalCart = cartRepository.findById(cartId);
-
-        if (!optionalCart.isPresent())
-            throw new CartNotFoundException("Cart Not Found.");
-
-        log.debug("cart found with id {}", cartId);
-        return optionalCart.get();
-    }
-
-    /**
-     *  checking product is exist
-     * @param cartId  cartId
-     * @param productId productId
-     * @return Product object
-     */
-    public Product checkProductIsExist(Integer cartId, Integer productId) {
-        log.debug("Check Product Is Exist, cartId {}, productId {}", cartId, productId);
-        Optional<Product> possibleProduct = productRepository.findByIdAndCart_Id(productId, cartId);
-
-        if (!possibleProduct.isPresent())
-            throw new ProductNotFoundException("Product Not Found.");
-
-        log.debug("product found with id {}", productId);
-        return possibleProduct.get();
     }
 
 
