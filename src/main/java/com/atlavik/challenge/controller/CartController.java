@@ -52,7 +52,7 @@ public class CartController {
      */
     @GetMapping(value = "/carts/{cartId}/products")
     public ResponseEntity<Product> getProduct(@PathVariable final int cartId, @RequestParam("productId") int productId) {
-        log.debug("Get Product cartId {} and productId {}", cartId, productId);
+        log.debug("Get Product By cartId {} and productId {}", cartId, productId);
         return new ResponseEntity<>(cartService.getProduct(cartId, productId), HttpStatus.OK);
     }
 

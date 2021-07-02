@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.atlavik</groupId>
-	<artifactId>challenge</artifactId>
+	<artifactId>shoppingCart</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>challenge</name>
+	<name>shoppingCart</name>
 	<description>code challenge for atlavik</description>
 	<properties>
 		<java.version>1.8</java.version>

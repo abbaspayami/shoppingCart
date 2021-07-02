@@ -51,9 +51,12 @@ public class CartService {
      * @return Cart Object
      */
     public Cart getShoppingCart(Integer cartId) {
-        log.debug("Get Product Method, cartId {}", cartId);
+        log.debug("Get Product Method with cartId {}", cartId);
         Optional<Cart> optionalCart = cartRepository.findById(cartId);
-        return optionalCart.orElseThrow(() -> new CartNotFoundException("Cart Not Found."));
+        return optionalCart.orElseThrow(() ->{
+            log.debug("CartNotFoundException with cartId {}", cartId);
+            return new CartNotFoundException("Cart Not Found.");
+        });
     }
 
     /**
@@ -63,9 +66,12 @@ public class CartService {
      * @return ShoppingCart Object
      */
     public Product getProduct(Integer cartId, Integer productId) {
-        log.debug("Get Product Method, cartId {}, productId {}", cartId, productId);
+        log.debug("Get Product Method with cartId {}, productId {}", cartId, productId);
         Optional<Product> possibleProduct = productRepository.findByIdAndCart_Id(productId, cartId);
-        return possibleProduct.orElseThrow(() -> new ProductNotFoundException("Product Not Found."));
+        return possibleProduct.orElseThrow(() -> {
+            log.debug("ProductNotFoundException with cartId {}, productId {}", cartId, productId);
+            return new ProductNotFoundException("Product Not Found.");
+        });
     }
 
     /**
